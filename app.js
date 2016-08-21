@@ -5,11 +5,12 @@ let app = express();
 
 const config = require('./config/config');
 const mongoose = require('mongoose');
-const debug = require('debug')('alttab:main');
-const AuthRouter = require('./src/routers/auth.router');
-const ProfileRouter = require('./src/routers/profile.router');
 const bodyParser = require('body-parser');
 
+const AuthRouter = require('./src/routers/auth.router');
+const ProfileRouter = require('./src/routers/profile.router');
+
+const debug = require('debug')('alttab:main');
 
 mongoose.connect(`mongodb://${config.mongo.host}:${config.mongo.port}/${config.mongo.db}`);
 mongoose.Promise = global.Promise;

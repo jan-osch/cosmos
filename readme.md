@@ -1,23 +1,11 @@
 ## AltTab coding challenge
 
-### You would need:
-* Node.js
-* MongoDB
+## Solution
+* Not using `Passport.js` - plain `Mongoose` + `Express` authentication.
+* Users are stored in a MongoDB collection.
+* Sessions are a separate collection. Token passed to the user is simply the session id.
+* Access to ProfileRouter is secured using authMiddleware.
 
-### Client APP is using:
-* Angular JS
-* Gulp
-
-## Your task:
-* Write an API with Express FW
-* Use the API to authenticate users and store them in MongoDB
-
-* Your API should allow users:
-   * To register
-   * To Login
-   * To Logout
-
-* Your API should pass all integration tests.
-
-### You could:
-* Use any npm library you like
+## General
+* App config can be manipulated in `config/config.js`
+* Business logic separated from delivery method (`src/actions/auth.actions`) 
