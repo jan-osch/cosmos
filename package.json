@@ -7,7 +7,9 @@
     "test": "mocha --recursive"
   },
   "dependencies": {
-    "express": "~4.11.1"
+    "debug": "^2.2.0",
+    "express": "~4.11.1",
+    "mongoose": "^4.5.9"
   },
   "devDependencies": {
     "chai": "^3.5.0",
