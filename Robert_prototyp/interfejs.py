@@ -2,7 +2,7 @@
 
 #Funkcja pomocnicza do przyjmowania danych do wektora
 def to_vector():
-
+    #JANUSZ: podoba mi się jak mieszasz polski z angielskim
     wektor = []
     while True:
         do_wektora = str(input("Podaj wartości y.\
@@ -46,7 +46,7 @@ class Interface(object):
             element_number = int(input("Ile zmiennych x jest w zadaniu? "))
             if element_number < 10:
                 self.element_number = element_number
-                return self.element_numberss
+                return self.element_numberss #JANUSZ: tutaj chyba powinno być self.element_number
             else: print("To trochę za dużo, na pewno jest mniej!")
 
     #Pytanie o występowanie wyrazu wolnego
@@ -70,7 +70,7 @@ class Interface(object):
                           "2 - parametry, oceny błędów"
                           "3 - parametry ")
             if regr_type in ['1','2','3']:
-                break
+                break #JANUSZ: wydaje mi się że nie zwracasz tutaj wartości
             else: print("Zła wartość!")
 
     #Wprowadzanie wektora y
@@ -89,4 +89,3 @@ class Interface(object):
     def convert_to_json(self):
         with open('dane_wejsciowe.json', 'w') as outfile:
             json.dump([self.y, self.x], outfile)
-        
