@@ -1,7 +1,7 @@
 ﻿import numpy as np
 
 
-
+#JANUSZ: Bardzo ładnie wszystko napisane
 class Regression(object):
 
     def __init__(self, y, x,
@@ -47,7 +47,7 @@ class Regression(object):
                 'X_transpose': self.x_transpose,
                 'xtx': self.xtx, 'xty': self.xty,
                 'xtx_inv': self.xtx_inverted,
-                'parametry': self.parameters}
+                'parametry': self.parameters} #JANUSZ: mało czytelnie zapisane
 
         return self.results
 

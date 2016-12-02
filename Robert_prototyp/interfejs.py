@@ -89,3 +89,4 @@ class Interface(object):
     def convert_to_json(self):
         with open('dane_wejsciowe.json', 'w') as outfile:
             json.dump([self.y, self.x], outfile)
+            #JANUSZ: Generalnie JSON powinien wyglądać trochę inaczej

@@ -33,3 +33,4 @@ regresja_txt = mathjax.create()
 with open('wynik_mathjax.txt', 'w') as outfile:
     json.dump(regresja_txt, outfile, sort_keys = False, indent = 4,
     ensure_ascii=False)
+    #JANUSZ: Generalnie JSON powinien wyglądać trochę inaczej
