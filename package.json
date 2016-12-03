@@ -1,7 +1,7 @@
 {
   "name": "cosmos",
   "scripts": {
-    "start": "node bin/www"
+    "start": "gulp ts && node bin/www"
   },
   "version": "0.0.0",
   "description": "",
@@ -27,11 +27,11 @@
     "serve-favicon": "~2.3.0",
     "superagent": "^1.7.1",
     "tsd": "^0.6.5",
+    "mongoose": "^4.3.6",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
     "assert": "^1.3.0",
-    "mongoose": "^4.3.6",
     "pow-mongodb-fixtures": "^0.13.0",
     "should": "^8.1.1",
     "should-http": "0.0.4",
