@@ -27,7 +27,7 @@ export function attachUser(req, res, next) {
 }
 
 export function extractToken(req):string {
-    const rawHeader = req.cookie.Authorization;
+    const rawHeader = req.cookies.Authorization;
     debug(rawHeader);
     if (!rawHeader) return;
 
