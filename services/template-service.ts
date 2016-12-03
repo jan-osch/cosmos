@@ -30,7 +30,12 @@ export function getOne(params:{taskId:string}):Promise<ITemplate> {
 }
 
 export function getAll(params:{limit:number, offset:number}) {
-    return Template.find({}).skip(params.offset).limit(params.limit).exec();
+    return Template.find({})
+        .skip(params.offset)
+        .limit(params.limit)
+        .sort({ createdAt: -1 })
+        .populate('author', 'name username')
+        .exec();
 }
 
 export function countAll(params:{}):Promise<number> {

@@ -5,8 +5,8 @@ block main
 
 block content
   - if (templates.length)
-    - each template in templates
-      include template
+    - each temp in templates
+      include temp
 
     - if (pages > 1)
       ul.pagination

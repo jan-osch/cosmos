@@ -13,7 +13,7 @@ nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
           a(href="/template/new", title="new template") Add
         - if (req.isAuthenticated())
           li
-            a(href="/users/"+req.user._id, title="Profile") Profile
+            a(href="/users/"+req.user._id, title="Profile") #{req.user.username}
           li
             a(href="/auth/logout", title="logout") Logout
         - else

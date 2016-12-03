@@ -13,7 +13,8 @@ block content
 
                 input(type="hidden", name="_csrf", value="#{csrf_token}")
 
-                - if (!isNew) input(type="hidden", name="_method", value="PUT")
+                - if (!isNew)
+                    input(type="hidden", name="_method", value="PUT")
 
                 .form-group
                     label.col-sm-2.control-label(for='title') Title
@@ -30,3 +31,22 @@ block content
                         button.btn.btn-primary(type='submit') Save
                         | &nbsp;
                         a.btn(href='/template', title="cancel") Cancel
+                        | &nbsp;
+
+
+    .row
+        .col-md-8
+            script.
+                function myFunction() {
+                    var x = document.getElementById("content").value;
+                    document.getElementById("demo").innerHTML = x;
+                    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                }
+
+            button.btn.btn-primary(onclick='myFunction()') Preview
+
+            .col-sm-offset-2.col-sm-10
+                p(id="demo")
+
+
+

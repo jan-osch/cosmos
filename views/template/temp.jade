@@ -1,0 +1,23 @@
+temp.temp
+  h3
+    a(href='/template/'+temp._id, title=temp.title) #{temp.title}
+  p= temp.content
+
+  .meta
+    span.muted= formatDate(temp.createdAt)
+
+    - if (temp.author)
+      | &nbsp; - &nbsp;
+      span Author &nbsp;
+
+      - var name = temp.author.name ? temp.author.name : temp.author.username
+
+      a(href="/users/"+temp.author._id)= name
+
+    - if (temp.tags)
+      | &nbsp; - &nbsp;
+      span Tags &nbsp;
+      - each tag in temp.tags.split(',')
+        i.muted.fa.fa-tag &nbsp;
+        a.tag(href="/tags/"+tag)= tag
+        | &nbsp;&nbsp;

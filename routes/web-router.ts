@@ -21,6 +21,7 @@ WebRouter.get('/', function (req:Request, res:Response) {
     ).then(results => {
         const count = results[0];
         const templates = results[1];
+
         return res.render('template/index', {
             title: 'Templates',
             templates: templates,
