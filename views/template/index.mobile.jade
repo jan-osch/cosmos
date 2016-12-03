@@ -7,7 +7,7 @@ block content
   - each article in articles
     .article
       h3
-        a(href='/articles/'+article._id, title=article.title) #{article.title}
+        a(href='/template/'+article._id, title=article.title) #{article.title}
       p= article.body
 
       .meta.muted

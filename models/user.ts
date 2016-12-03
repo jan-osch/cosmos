@@ -27,23 +27,11 @@ export const UserSchema = mongoose.Schema({
         validate: userEmailValidator
     }
 });
-//
-// UserSchema.pre('save', (next)=> {
-//     console.warn(this); //TODO DEBUG remove
-//     console.warn('KKDKD'); //TODO DEBUG remove
-//     console.warn('KKDKD'); //TODO DEBUG remove
-//     console.warn('KKDKD'); //TODO DEBUG remove
-//     console.warn('KKDKD'); //TODO DEBUG remove
-//     console.warn('KKDKD'); //TODO DEBUG remove
-//     console.warn('KKDKD'); //TODO DEBUG remove
-//     console.warn('KKDKD'); //TODO DEBUG remove
-//     console.warn('KKDKD'); //TODO DEBUG remove
-//     console.warn(this); //TODO DEBUG remove
-//     console.warn(this); //TODO DEBUG remove
-//
-//     this.password = createPasswordHash(this.password);
-//     next()
-// });
+
+UserSchema.pre('save', (next)=> {
+    this.password = createPasswordHash(this.password);
+    next()
+});
 
 export function createPasswordHash(password):string {
     return crypto.createHash('sha256')

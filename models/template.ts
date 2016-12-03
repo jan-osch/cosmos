@@ -1,8 +1,8 @@
+import {ITemplate} from "../interfaces/models";
 import * as mongoose from "mongoose";
-import {ITaskPrototype} from "../interfaces/models";
 
 
-export const TaskPrototypeSchema = mongoose.Schema({
+export const TemplateSchema = mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -14,8 +14,12 @@ export const TaskPrototypeSchema = mongoose.Schema({
     title: {
         type: String,
         required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 });
 
 
-export const TaskPrototype = mongoose.model<ITaskPrototype>('Task', TaskPrototypeSchema);
+export const Template = mongoose.model<ITemplate>('Template', TemplateSchema);

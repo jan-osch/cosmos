@@ -1,0 +1,32 @@
+extends ../layouts/default
+
+block main
+    h1= title
+
+block content
+    - var action = '/template/'
+    - action += isNew ? 'new' : task._id
+
+    .row
+        .col-md-8
+            form.form-horizontal(method="post", action=action, role="form")
+
+                input(type="hidden", name="_csrf", value="#{csrf_token}")
+
+                - if (!isNew) input(type="hidden", name="_method", value="PUT")
+
+                .form-group
+                    label.col-sm-2.control-label(for='title') Title
+                    .col-sm-10
+                        input.form-control#title(type='text', name="title", value=task.title, placeholder='Enter the title')
+
+                .form-group
+                    label.col-sm-2.control-label(for='content') Content
+                    .col-sm-10
+                        textarea.form-control#content(rows="5", name="content", placeholder='Enter the task body')=task.content
+
+                .form-group
+                    .col-sm-offset-2.col-sm-10
+                        button.btn.btn-primary(type='submit') Save
+                        | &nbsp;
+                        a.btn(href='/template', title="cancel") Cancel

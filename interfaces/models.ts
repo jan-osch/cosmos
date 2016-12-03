@@ -7,7 +7,7 @@ export interface IUser extends Document {
     email:string;
 }
 
-export interface ITaskPrototype extends Document {
+export interface ITemplate extends Document {
     _id:string;
     author:string|IUser;
     title:string;

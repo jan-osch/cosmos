@@ -1,0 +1,36 @@
+extends ../layouts/default
+
+block main
+  h1= task.title
+
+block content
+  .row
+    .col-md-8
+      p=task.content
+      .meta
+        - if (task.user)
+          - var name = task.user.name ? task.user.name : task.user.username
+          p Author :&nbsp;
+            a(href="/users/"+task.user._id)= name
+
+        - if (task.tags)
+          p Tags &nbsp;
+            - each tag in task.tags.split(',')
+              i.muted.fa.fa-tag &nbsp;
+              a.tag(href="/tags/"+tag)= tag
+              | &nbsp;&nbsp;
+
+        p.muted= formatDate(task.createdAt, "%b %d, %Y at %I:%M %p")
+
+    .col-md-4
+      - if (!task.isNew && task.image && task.image.files && task.image.files.length)
+        img(src=task.image.cdnUri + '/mini_' + task.image.files[0])
+
+  form(action="/template/"+task.id, method="post", onsubmit="return confirm('Are you sure?')")
+    input(type='hidden', name='_csrf', value="#{csrf_token}")
+    a.btn.btn-default(href='/template/'+task._id+'/edit', title="edit") Edit
+    | &nbsp;
+    input(type="hidden", name="_method", value="DELETE")
+    button.btn.btn-danger(type="submit") Delete
+
+  br
