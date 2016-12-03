@@ -21,7 +21,8 @@ gulp.task('clean', function () {
             '**/*.js.map',
             '!node_modules/**',
             '!gulpfile.js',
-            '!bin/**'
+            '!bin/**',
+            '!excluded/**'
         ], {read: false})
         .pipe(clean())
 });
