@@ -28,7 +28,7 @@ export const UserSchema = mongoose.Schema({
     }
 });
 
-UserSchema.pre('save', (next)=> {
+UserSchema.pre('save', function (next){
     this.password = createPasswordHash(this.password);
     next()
 });
