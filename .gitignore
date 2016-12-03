@@ -1,3 +1,5 @@
 node_modules
-angularjs-frontend/.tmp
+**/*.js
+**/*.js.map
+!gulpfile.js
 .idea
