@@ -2,10 +2,11 @@
 
 import {Request, Response} from "express";
 import * as mongoose from "mongoose";
-import {IndexRouter} from "./routes/index-router";
+import {WebRouter} from "./routes/web-router";
 import {AuthRouter} from "./routes/auth-router";
 import {ProfileRouter} from "./routes/profile-router";
 import {TaskPrototypeRouter} from "./routes/task-prototype-router";
+import {attachUser} from "./middlewares/auth-middleware";
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -15,6 +16,8 @@ var bodyParser = require('body-parser');
 const pkg = require('./package.json');
 const helpers = require('view-helpers');
 const flash = require('connect-flash');
+const debug = require('debug')('cosmos');
+const session = require('express-session');
 
 var app = express();
 mongoose.Promise = global.Promise;
@@ -29,6 +32,13 @@ db.on('open', ()=> {
     console.log('i am happy');
 });
 
+app.use(session());
+app.use(attachUser);
+// app.use(helpers('Cosmos'));
+
+app.locals.TITLE = 'Cosmos';
+app.locals.DESCRIPTION = 'Best place to learn anything!';
+
 app.use(function (req, res, next) {
     res.locals.pkg = pkg;
     res.locals.env = 'development';
@@ -40,7 +50,7 @@ app.use(function (req, res, next) {
         }
     };
 
-    req.isAuthenticated = ()=>req.user !== undefined;
+    req.isAuthenticated = ()=>req.user != undefined;
     next();
 });
 
@@ -58,7 +68,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', IndexRouter);
+app.use('/', WebRouter);
 app.use('/auth', AuthRouter);
 app.use('/profile', ProfileRouter);
 app.use('/task', TaskPrototypeRouter);

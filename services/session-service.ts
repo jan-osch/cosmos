@@ -4,22 +4,23 @@ import {Session} from "../models/session";
 import {IUser, ISession} from "../interfaces/models";
 
 
-export function registerUserAction(name:string, rawPassword:string, email:string):Promise {
+export function registerUserAction(params:{name:string, password:string, email:string, username:string}):Promise {
     return Promise.resolve()
         .then(()=> {
-            if (!rawPassword) throw new Error('Password is not specified');
+            if (!params.password) throw new Error('Password is not specified');
 
-            const passwordHash = createPasswordHash(rawPassword);
+            const passwordHash = createPasswordHash(params.password);
 
             const user = new User({
-                name: name,
+                name: params.name,
                 password: passwordHash,
-                email: email
+                email: params.email,
+                username: params.username
             });
 
             return user.save()
         })
-        .then(()=>loginUserAction(email, rawPassword))
+        .then(()=>loginUserAction(params.email, params.password))
 }
 
 /**

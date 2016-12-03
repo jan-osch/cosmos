@@ -1,30 +1,39 @@
 import {getTokenBearer} from "../services/session-service";
 
-export function authMiddleware(req, res, next) {
-    const token = extractToken(req);
-    if (!token) {
+const debug= require('debug')('cosmos:auth-middleware');
+
+export function authorizeUser(req, res, next) {
+    if (!req.user) {
         return res
             .status(401)
-            .json({error: 'Bearer token is missing'})
+            .redirect('/login');
+    }
+
+    return next();
+}
+
+export function attachUser(req, res, next) {
+    const token = extractToken(req);
+    if (!token) {
+        debug('authorization token not found');
+        return next();
     }
 
     return getTokenBearer(token)
         .then(user => {
             req.user = user;
-            next();
-        })
-        .catch(e => {
-            return res
-                .status(401)
-                .json({error: e.toString()})
+            return next();
         })
 }
 
 export function extractToken(req):string {
-    const rawHeader = req.get('Authorization');
+    const rawHeader = req.cookie.Authorization;
+    debug(rawHeader);
     if (!rawHeader) return;
 
     return rawHeader.split('Bearer ')[1];
 }
+
+
 
 

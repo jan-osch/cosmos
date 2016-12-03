@@ -1,5 +1,5 @@
 import {Router, Request, Response} from "express";
-import {authMiddleware} from "../middlewares/auth-middleware";
+import {authorizeUser} from "../middlewares/auth-middleware";
 import {
     getTaskPrototype,
     updateTaskPrototypeAction,
@@ -10,7 +10,7 @@ import {
 
 export const TaskPrototypeRouter = Router();
 
-TaskPrototypeRouter.use(authMiddleware);
+TaskPrototypeRouter.use(authorizeUser);
 
 TaskPrototypeRouter.get('/prototype', (req, res, next)=> {
     return getAllTaskPrototypes()
