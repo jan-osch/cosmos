@@ -1,6 +1,5 @@
 import {Router} from "express";
 import {registerUserAction, loginUserAction} from "../services/session-service";
-import {authorizeUser} from "../middlewares/auth-middleware";
 import {Session} from "../models/session";
 
 export const AuthRouter = Router();
@@ -12,11 +11,14 @@ AuthRouter.post('/register', (req, res)=> {
                 .cookie('Authorization', `Bearer ${token}`)
                 .redirect('/');
         })
-        .catch(e=> {
-            console.error(e);
-            res
-                .status(400)
-                .redirect('/signup');
+        .catch(err=> {
+            const errors = Object.keys(err.errors).map(field => err.errors[field].message);
+
+            res.render('users/signup', {
+                title: 'Sign up',
+                user: req.body,
+                errors,
+            });
         });
 });
 
@@ -33,8 +35,6 @@ AuthRouter.post('/login', (req, res)=> {
         });
 });
 
-AuthRouter.use('/logout', authorizeUser);
-
 AuthRouter.get('/logout', (req, res)=> {
     return Session.remove({email: req.user.email})
         .then(status => {
@@ -42,8 +42,8 @@ AuthRouter.get('/logout', (req, res)=> {
                 console.warn(`Invalid state: ${req.user.email} had more than one session: ${status.n}`);
             }
             res
-                .status(200)
-                .json({status: 'OK'});
+                .clearCookie('Authorization')
+                .redirect('/');
         })
-        .catch(e => res.status(500).json({error: e}));
+        .catch(e => res.status(500).json({error: e.toString()}));
 });

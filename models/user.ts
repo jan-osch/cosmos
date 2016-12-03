@@ -1,4 +1,5 @@
 import * as mongoose from "mongoose";
+import * as crypto from "crypto";
 import {IUser} from "../interfaces/models";
 
 export const userEmailValidator = {
@@ -26,6 +27,29 @@ export const UserSchema = mongoose.Schema({
         validate: userEmailValidator
     }
 });
+//
+// UserSchema.pre('save', (next)=> {
+//     console.warn(this); //TODO DEBUG remove
+//     console.warn('KKDKD'); //TODO DEBUG remove
+//     console.warn('KKDKD'); //TODO DEBUG remove
+//     console.warn('KKDKD'); //TODO DEBUG remove
+//     console.warn('KKDKD'); //TODO DEBUG remove
+//     console.warn('KKDKD'); //TODO DEBUG remove
+//     console.warn('KKDKD'); //TODO DEBUG remove
+//     console.warn('KKDKD'); //TODO DEBUG remove
+//     console.warn('KKDKD'); //TODO DEBUG remove
+//     console.warn(this); //TODO DEBUG remove
+//     console.warn(this); //TODO DEBUG remove
+//
+//     this.password = createPasswordHash(this.password);
+//     next()
+// });
+
+export function createPasswordHash(password):string {
+    return crypto.createHash('sha256')
+        .update(password)
+        .digest('hex');
+}
 
 function validateEmail(email:string):boolean {
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

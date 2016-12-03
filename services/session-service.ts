@@ -1,36 +1,23 @@
-import * as crypto from "crypto";
-import {User} from "../models/user";
+import {User, createPasswordHash} from "../models/user";
 import {Session} from "../models/session";
 import {IUser, ISession} from "../interfaces/models";
 
 
 export function registerUserAction(params:{name:string, password:string, email:string, username:string}):Promise {
     return Promise.resolve()
-        .then(()=> {
-            if (!params.password) throw new Error('Password is not specified');
-
-            const passwordHash = createPasswordHash(params.password);
-
-            const user = new User({
-                name: params.name,
-                password: passwordHash,
-                email: params.email,
-                username: params.username
-            });
-
-            return user.save()
-        })
+        .then(()=> new User(params).save())
         .then(()=>loginUserAction(params.email, params.password))
-}
+        .catch(err => {
+            if (err.name === 'MongoError') {
+                err.errors = {
+                    email: {
+                        message: 'Mail already exists'
+                    }
+                }
+            }
 
-/**
- * @param {String} password
- * @returns {String}
- */
-export function createPasswordHash(password):string {
-    return crypto.createHash('sha256')
-        .update(password)
-        .digest('hex');
+            throw err;
+        });
 }
 
 /**
@@ -39,12 +26,10 @@ export function createPasswordHash(password):string {
  * @returns {Promise<String>} - Promise of session token
  */
 export function loginUserAction(email, rawPassword):Promise<string> {
+    const password = createPasswordHash(rawPassword);
+
     return logoutUserAction(email)
-        .then(()=> User.findOne({email: email}, {password: 1}))
-        .then((user:IUser)=> {
-            const passwordHash = createPasswordHash(rawPassword);
-            if (user.password !== passwordHash) throw new Error('User password does not match');
-        })
+        .then(()=> User.findOne({email: email, password: password}, {_id: 1}))
         .then(()=> {
             return new Session({email: email}).save();
         })

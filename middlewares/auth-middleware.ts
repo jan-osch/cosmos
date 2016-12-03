@@ -24,6 +24,10 @@ export function attachUser(req, res, next) {
             req.user = user;
             return next();
         })
+        .catch(e => {
+            res.clearCookie('Authorization');
+            next();
+        });
 }
 
 export function extractToken(req):string {
