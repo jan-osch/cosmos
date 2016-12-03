@@ -12,7 +12,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+const pkg = require('./package.json');
+const helpers = require('view-helpers');
+const flash = require('connect-flash');
 
 var app = express();
 mongoose.Promise = global.Promise;
@@ -27,10 +29,26 @@ db.on('open', ()=> {
     console.log('i am happy');
 });
 
+app.use(function (req, res, next) {
+    res.locals.pkg = pkg;
+    res.locals.env = 'development';
+    req.isActive = function (link) {
+        if (link === '/') {
+            return req.url === '/' ? 'active' : ''
+        } else {
+            return req.url.indexOf(link) !== -1 ? 'active' : ''
+        }
+    };
+
+    req.isAuthenticated = ()=>req.user !== undefined;
+    next();
+});
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -60,9 +78,10 @@ app.use((req:Request, res:Response, next:Function) => {
 if (app.get('env') === 'development') {
     app.use(function (err:any, req:Request, res:Response, next:Function) {
         res.status(err.status || 500);
-        res.render('error', {
+        res.render('500', {
             message: err.message,
-            error: err
+            error: err,
+            req: req
         });
     });
 }
@@ -70,10 +89,12 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err:any, req:Request, res:Response, next:Function) {
+    console.error(err);
     res.status(err.status || 500);
-    res.render('error', {
+    res.render('500', {
         message: err.message,
-        error: {}
+        error: {},
+        req: req
     });
 });
 

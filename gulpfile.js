@@ -22,7 +22,8 @@ gulp.task('clean', function () {
             '!node_modules/**',
             '!gulpfile.js',
             '!bin/**',
-            '!excluded/**'
+            '!excluded/**',
+            '!public/**'
         ], {read: false})
         .pipe(clean())
 });
